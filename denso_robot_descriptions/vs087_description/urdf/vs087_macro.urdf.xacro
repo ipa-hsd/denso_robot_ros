@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="vs087">
+  <xacro:property name="meshpath" value="package://denso_robot_descriptions/vs087_description/meshes" />
+  <xacro:property name="pi" value="3.14159" />
+  <xacro:property name="safety_offset" value="0.02" />
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/vs087</robotNamespace>
+    </plugin>
+  </gazebo>
+
+  <xacro:macro name="vs087" params="parent prefix *origin">
+    <xacro:property name="distro" value="$(optenv ROS_DISTRO)"/>
+    <xacro:property name="hwi_prefix" value="hardware_interface/"/>
+    <xacro:if value="${distro == 'indigo'}">
+      <xacro:property name="hwi_prefix" value=""/>
+    </xacro:if>
+
+    <!-- Fixing the robot base -->
+    <joint name="${prefix}base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${prefix}base_link" />
+    </joint>
+    <link name="${prefix}base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/base_link.dae" />
+        </geometry>
+        <material name="denso-material">
+          <color rgba="0.88 0.88 0.88 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/base_link.dae" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000" />
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint_1" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="19.73356" lower="${-2.97 + safety_offset}" upper="${2.97 - safety_offset}" velocity="3.926991" />
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}link_1" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+    <link name="${prefix}link_1">
+      <visual>
+        <origin xyz="0 0 0.168" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_1.dae" />
+        </geometry>
+        <material name="denso-material" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.168" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_1.dae" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000" />
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint_2" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="16.8447" lower="${-1.75 + safety_offset}" upper="${2.36 - safety_offset}" velocity="2.617994" />
+      <parent link="${prefix}link_1" />
+      <child link="${prefix}link_2" />
+      <origin xyz="0.03 0 0.395" rpy="${-pi/2} ${-pi/2} 0" />
+    </joint>
+    <link name="${prefix}link_2">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_2.dae" />
+        </geometry>
+        <material name="denso-material" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_2.dae" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000" />
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint_3" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="20.70885" lower="${-2.37 + safety_offset}" upper="${2.67 - safety_offset}" velocity="2.858326" />
+      <parent link="${prefix}link_2" />
+      <child link="${prefix}link_3" />
+      <origin xyz="0.445 0 0" rpy="0 0 0" />
+    </joint>
+    <link name="${prefix}link_3">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_3.dae" />
+        </geometry>
+        <material name="denso-material" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_3.dae" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000" />
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint_4" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="20.96646" lower="${-4.71 + safety_offset}" upper="${4.71 - safety_offset}" velocity="3.926991" />
+      <parent link="${prefix}link_3" />
+      <child link="${prefix}link_4" />
+      <origin xyz="0 -0.02 0" rpy="${pi/2} 0 ${pi/2}" />
+    </joint>
+    <link name="${prefix}link_4">
+      <visual>
+        <origin xyz="0 0 0.257" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_4.dae" />
+        </geometry>
+        <material name="denso-material" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.257" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_4.dae" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000" />
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint_5" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="23.72286" lower="${-2.09 + safety_offset}" upper="${2.09 - safety_offset}" velocity="3.021688" />
+      <parent link="${prefix}link_4" />
+      <child link="${prefix}link_5" />
+      <origin xyz="0 0 0.43" rpy="${-pi/2} ${-pi/2} 0" />
+    </joint>
+    <link name="${prefix}link_5">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_5.dae" />
+        </geometry>
+        <material name="denso-material_dark">
+          <color rgba="0.44 0.44 0.44 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_5.dae" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000" />
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint_6" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="33.51032" lower="${-2*pi + safety_offset}" upper="${2*pi - safety_offset}" velocity="6.283185" />
+      <parent link="${prefix}link_5" />
+      <child link="${prefix}link_6" />
+      <origin xyz="0.115 0 0" rpy="${pi/2} 0 ${pi/2}" />
+    </joint>
+    <link name="${prefix}link_6">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_6.dae" />
+        </geometry>
+        <material name="denso-material_dark" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="${meshpath}/joint_6.dae" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1" />
+        <origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000" />
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint_tcp" type="fixed">
+      <parent link="${prefix}link_6" />
+      <child link="${prefix}ee_link" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+    <link name="${prefix}ee_link">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+    <transmission name="${prefix}joint_1_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint_1">
+        <hardwareInterface>${hwi_prefix}PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}joint_1_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <transmission name="${prefix}joint_2_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint_2">
+        <hardwareInterface>${hwi_prefix}PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}joint_2_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <transmission name="${prefix}joint_3_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint_3">
+        <hardwareInterface>${hwi_prefix}PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}joint_3_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <transmission name="${prefix}joint_4_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint_4">
+        <hardwareInterface>${hwi_prefix}PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}joint_4_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <transmission name="${prefix}joint_5_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint_5">
+        <hardwareInterface>${hwi_prefix}PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}joint_5_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <transmission name="${prefix}joint_6_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}joint_6">
+        <hardwareInterface>${hwi_prefix}PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}joint_6_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+</robot>
