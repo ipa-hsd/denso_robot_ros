@@ -1,0 +1,7 @@
+int32 io_interface
+int32[] io_number
+bool[] value
+
+int32 HAND_IO=1
+int32 MINI_IO=2
+---
